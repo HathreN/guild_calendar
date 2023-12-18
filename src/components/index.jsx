@@ -66,6 +66,22 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
+function filterMeetingsByDay(meetings, day) {
+    return meetings.filter((meeting) =>
+        isSameDay(parseISO(meeting.startDatetime), day)
+    )
+}
+
+function dayStyle(isSelected, isToday, isSameMonth){
+    const styles=[]
+    if(isToday){ styles.push('text-white')
+    } else {
+
+    }
+    if(isSelected){styles.push('bg-red-500 text-white')}
+    return styles
+}
+
 export default function Example() {
     let today = startOfToday()
     let [selectedDay, setSelectedDay] = useState(today)
@@ -127,43 +143,49 @@ export default function Example() {
                             <div>Nie</div>
                         </div>
                         <div className="grid grid-cols-7 mt-2 text-sm">
-                            {days.map((day, dayIdx) => (
-
-                                <div
-                                    key={day.toString()}
-                                    className={classNames(
-                                        dayIdx === 0 && colStartClasses[getDay(day-1)],
-                                        'py-1.5'
-                                    )}
-                                >
-                                    <button
-                                        type="button"
-                                        onClick={() => setSelectedDay(day)}
+                            {days.map((day, dayIdx) => {
+                                const todaysMeeting=filterMeetingsByDay(meetings,day)
+                                const anyMeetingsPresent=todaysMeeting.length>0
+                                const isSelected=isEqual(day,selectedDay)
+                                return (
+                                    <div
+                                        key={day.toString()}
                                         className={classNames(
-                                            isEqual(day, selectedDay) && 'text-white',
-                                            !isEqual(day, selectedDay) && isToday(day) && 'text-red-500',
-                                            !isEqual(day, selectedDay) && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && 'text-gray-900', //every day of month other than today
-                                            !isEqual(day, selectedDay) && !isToday(day) && !isSameMonth(day, firstDayCurrentMonth) && 'text-gray-400 bg-gray-900',
-                                            isEqual(day, selectedDay) && isToday(day) && 'bg-red-500', // today
-                                            isEqual(day, selectedDay) && !isToday(day) && 'bg-gray-900', // every day of month other than today
-                                            !isEqual(day, selectedDay) && 'hover:bg-gray-200', // hovered day
-                                            (isEqual(day, selectedDay) || isToday(day)) && 'font-semibold', 'mx-auto flex h-8 w-8 items-center justify-center rounded-full'
+                                            dayIdx === 0 && colStartClasses[getDay(day - 1)],
+                                            'py-1.5'
                                         )}
                                     >
-                                        <time dateTime={format(day, 'yyyy-MM-dd')}>
-                                            {format(day, 'd')}
-                                        </time>
-                                    </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setSelectedDay(day)}
+                                            className={classNames(
+                                                isSelected && 'text-white',
+                                                !isSelected && isToday(day) && 'text-red-500',
+                                                !isSelected && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && 'text-gray-900', //every day of month other than today
+                                                !isSelected && !isToday(day) && !isSameMonth(day, firstDayCurrentMonth) && 'text-gray-400 bg-gray-900',
+                                                isSelected && isToday(day) && 'bg-red-500', // today
+                                                isSelected && !isToday(day) && 'bg-gray-900', // every day of month other than today
+                                                !isSelected && 'hover:bg-gray-200', // hovered day
+                                                (isSelected || isToday(day)) && 'font-semibold', 'mx-auto flex h-8 w-8 items-center justify-center rounded-full'
+                                            )}
+                                        >
+                                            <time dateTime={format(day, 'yyyy-MM-dd')}>
+                                                <div className="">
+                                                    {anyMeetingsPresent? <img src={todaysMeeting[0].imageUrl}/> : format(day, 'd')}
+                                                </div>
+                                            </time>
+                                        </button>
 
-                                    <div className="w-1 h-1 mx-auto mt-1">
-                                        {meetings.some((meeting) =>
-                                            isSameDay(parseISO(meeting.startDatetime), day)
-                                        ) && (
-                                            <div className="w-1 h-1 rounded-full bg-sky-500"></div>
-                                        )}
+                                        <div className="w-1 h-1 mx-auto mt-1">
+                                            {meetings.some((meeting) =>
+                                                isSameDay(parseISO(meeting.startDatetime), day)
+                                            ) && (
+                                                <div className="w-1 h-1 rounded-full bg-red-500"></div>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                                    ))}
+                                );
+                            })}
                         </div>
                     </div>
                     <section className="mt-12 md:mt-0 md:pl-14">
