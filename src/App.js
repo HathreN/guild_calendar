@@ -1,13 +1,13 @@
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import './App.css';
 import './Calendar.css';
-import Guild from "./components/Guild";
-import Home from "./components/Home";
-import Login from "./components/Login";
-import Profile from "./components/Profile";
-import Register from "./components/Register";
-import Upcoming from "./components/Upcoming";
-import Example from "./components/index";
+import Guild from "./pages/Guild";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Profile from "./pages/Profile";
+import Register from "./pages/Register";
+import Upcoming from "./pages/Upcoming";
+import Example from "./pages/index";
 
 function App() {
   return (
