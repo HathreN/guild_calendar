@@ -12,7 +12,7 @@ import {
     startOfToday,
 } from 'date-fns'
 import { pl } from 'date-fns/locale'
-import { Fragment, useState, useContext } from 'react'
+import {Fragment, useState, useContext, useEffect} from 'react'
 import SingleDay from "../components/singleDay";
 
 const meetings = [
@@ -77,6 +77,7 @@ export default function Example() {
     let [currentMonth, setCurrentMonth] = useState(format(startOfToday(), 'MMM-yyyy'))
     let firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date())
     let today = startOfToday()
+    let selectedDayStorage = today
     let [selectedDay, setSelectedDay] = useState(today)
     let test = useContext(selectedDay)
     let days = eachDayOfInterval({
@@ -96,6 +97,15 @@ export default function Example() {
     let selectedDayMeetings = meetings.filter((meeting) =>
         isSameDay(parseISO(meeting.startDatetime), selectedDay)
     )
+
+    function handleSelectDay() {
+        selectedDayStorage = localStorage.getItem('selectedDay')
+        setSelectedDay(selectedDayStorage)
+    }
+
+    useEffect(() => {
+        setSelectedDay(selectedDay)
+    }, [selectedDay]);
 
     return (
         <div className="pt-16">
@@ -134,7 +144,7 @@ export default function Example() {
                         </div>
                         <div className="grid grid-cols-7 mt-2 text-sm">
                             {days.map((day, dayIdx) =>
-                                <SingleDay meetings={meetings} day={day} dayId={dayIdx} onClick={() => console.log('działan')}/>
+                                <SingleDay meetings={meetings} day={day} dayId={dayIdx} handleSelectDay={()=>handleSelectDay()}/>
                             )}
                         </div>
                     </div>

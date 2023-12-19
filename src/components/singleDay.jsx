@@ -1,5 +1,5 @@
 import {format, getDay, isEqual, isSameDay, isSameMonth, isToday, parse, parseISO, startOfToday} from "date-fns";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 
 let colStartClasses = [
     '',
@@ -20,10 +20,15 @@ function filterMeetingsByDay(meetings, day) {
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
-const SingleDay =  ({meetings, day, dayId}) => {
+
+const SingleDay =  ({meetings, day, dayId, handleSelectDay}) => {
+    function setSelectedDay(day) {
+        localStorage.setItem('selectedDay', day)
+        handleSelectDay(day)
+    }
 
     let today = startOfToday()
-    let [selectedDay, setSelectedDay] = useState(today)
+    let selectedDay = today
     const todaysMeeting=filterMeetingsByDay(meetings,day)
     let [currentMonth, setCurrentMonth] = useState(format(startOfToday(), 'MMM-yyyy'))
     let firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date())
@@ -40,7 +45,7 @@ const SingleDay =  ({meetings, day, dayId}) => {
         >
             <button
                 type="button"
-                onClick={() => console.log('tutaj')}
+                onClick={() => setSelectedDay(day)}
                 className={classNames(
                     isSelected && 'text-white',
                     !isSelected && isToday(day) && 'text-red-500',
