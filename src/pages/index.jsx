@@ -11,7 +11,7 @@ import {
     startOfToday,
 } from 'date-fns'
 import { pl } from 'date-fns/locale'
-import {Fragment, useState, useContext, useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import SingleDay from "../components/singleDay";
 
 const meetings = [

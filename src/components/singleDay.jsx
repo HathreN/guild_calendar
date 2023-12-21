@@ -1,5 +1,5 @@
 import {format, getDay, isEqual, isSameDay, isSameMonth, isToday, parse, parseISO, startOfToday} from "date-fns";
-import {useContext, useEffect, useState} from "react";
+import {useState} from "react";
 
 let colStartClasses = [
     '',
@@ -21,19 +21,24 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-const SingleDay =  ({meetings, day, dayId, handleSelectDay}) => {
+const SingleDay = ({meetings, day, dayId, handleSelectDay}) => {
     function setSelectedDay(day) {
         localStorage.setItem('selectedDay', day)
         handleSelectDay(day)
     }
 
+    function showRaidDay() {
+        localStorage.setItem('meetingId', todaysMeeting[0].id)
+        window.location = "/raid"
+    }
+
     let today = startOfToday()
     let selectedDay = today
-    const todaysMeeting=filterMeetingsByDay(meetings,day)
+    const todaysMeeting = filterMeetingsByDay(meetings, day)
     let [currentMonth, setCurrentMonth] = useState(format(startOfToday(), 'MMM-yyyy'))
     let firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date())
-    const anyMeetingsPresent = todaysMeeting.length>0
-    const isSelected = isEqual(day,selectedDay)
+    const anyMeetingsPresent = todaysMeeting.length > 0
+    const isSelected = isEqual(day, selectedDay)
 
     return (
         <div
@@ -59,7 +64,10 @@ const SingleDay =  ({meetings, day, dayId, handleSelectDay}) => {
             >
                 <time dateTime={format(day, 'yyyy-MM-dd')}>
                     <div className="">
-                        {anyMeetingsPresent? <img src={todaysMeeting[0].imageUrl}/> : format(day, 'd')}
+                        {/* eslint-disable-next-line no-unused-expressions */}
+                        {anyMeetingsPresent ? <img src={todaysMeeting[0].imageUrl} alt="meeting" onClick={() => {
+                            showRaidDay()
+                        }}/> : format(day, 'd')}
                     </div>
                 </time>
             </button>

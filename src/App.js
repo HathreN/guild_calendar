@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import Upcoming from "./pages/Upcoming";
 import Example from "./pages/index";
+import Raid from "./pages/Raid";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
               <Route path='/guild' element={<Guild/>}/>
               <Route path='/' element={<Home/>}/>
               <Route path='/login' element={<Login/>}/>
+              <Route path='/raid' element={<Raid/>}/>
               <Route path='/profile' element={<Profile/>}/>
               <Route path='/register' element={<Register/>}/>
               <Route path='/upcomming' element={<Upcoming/>}/>
