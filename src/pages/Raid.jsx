@@ -56,7 +56,16 @@ const Raid = () => {
                 <div id="navbar">
                 </div>
                 <div id="calendar" className="text-amber-600 font-bold">
+                    <p className="text-amber-600">{meetings[meetingId-1].id}</p>
+                </div>
+                <div id="calendar" className="text-amber-600 font-bold">
                     <p className="text-amber-600">{meetings[meetingId-1].name}</p>
+                </div>
+                <div id="calendar" className="text-amber-600 font-bold">
+                    <img src={meetings[meetingId-1].imageUrl}/>
+                </div>
+                <div id="calendar" className="text-amber-600 font-bold">
+                    <p className="text-amber-600">{meetings[meetingId-1].startDatetime}</p>
                 </div>
             </div>
         </div>
