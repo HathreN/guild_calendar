@@ -28,7 +28,8 @@ const SingleDay = ({meetings, day, dayId, handleSelectDay}) => {
     }
 
     function showRaidDay() {
-        localStorage.setItem('meetingId', todaysMeeting[0].id)
+        console.log(todaysMeeting)
+        localStorage.setItem('meeting', JSON.stringify(todaysMeeting))
         window.location = "/raid"
     }
 
