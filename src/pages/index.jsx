@@ -70,6 +70,7 @@ function dayStyle(isSelected, isToday, isSameMonth){
 }
 
 export default function Example() {
+    const [hover, setHover] = useState(null)
     let [currentMonth, setCurrentMonth] = useState(format(startOfToday(), 'MMM-yyyy'))
     let firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date())
     let today = startOfToday()

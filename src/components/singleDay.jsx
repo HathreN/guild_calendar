@@ -36,6 +36,7 @@ const SingleDay = ({meetings, day, dayId, handleSelectDay}) => {
     let today = startOfToday()
     let selectedDay = today
     const todaysMeeting = filterMeetingsByDay(meetings, day)
+    const [hover, setHover] = useState(null)
     let [currentMonth, setCurrentMonth] = useState(format(startOfToday(), 'MMM-yyyy'))
     let firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date())
     const anyMeetingsPresent = todaysMeeting.length > 0
@@ -64,7 +65,10 @@ const SingleDay = ({meetings, day, dayId, handleSelectDay}) => {
                 )}
             >
                 <time dateTime={format(day, 'yyyy-MM-dd')}>
-                    <div className="">
+                    <div className="" onMouseEnter={() => {
+                        if (anyMeetingsPresent) setHover(todaysMeeting)
+                    }}
+                         onMouseLeave={() => setHover(false)}>
                         {/* eslint-disable-next-line no-unused-expressions */}
                         {anyMeetingsPresent ? <img src={todaysMeeting[0].imageUrl} alt="meeting" onClick={() => {
                             showRaidDay()
@@ -72,7 +76,16 @@ const SingleDay = ({meetings, day, dayId, handleSelectDay}) => {
                     </div>
                 </time>
             </button>
-
+            {hover &&
+                <div className="absolute mt-16 bg-amber-300">
+                    {todaysMeeting.map((day, dayIdx) =>
+                        <div>
+                            <div>{day.name}</div>
+                            <img className="h-10 w-10" src={day.imageUrl}/>
+                            <div>{day.startDatetime}</div>
+                        </div>
+                    )}
+                </div>}
             <div className="w-1 h-1 mx-auto mt-1">
                 {meetings.some((meeting) =>
                     isSameDay(parseISO(meeting.startDatetime), day)
