@@ -71,8 +71,7 @@ const SingleDay = ({meetings, day, dayId, handleSelectDay}) => {
                 <time dateTime={format(day, 'yyyy-MM-dd')}>
                     <div className="" onMouseEnter={() => {
                         if (anyMeetingsPresent) changeHoverState(todaysMeeting)
-                    }}
-                         onMouseLeave={() => changeHoverState(false)}>
+                    }}>
                         {/* eslint-disable-next-line no-unused-expressions */}
                         {anyMeetingsPresent ? <img src={todaysMeeting[0].imageUrl} alt="meeting" onClick={() => {
                             showRaidDay()
@@ -81,7 +80,7 @@ const SingleDay = ({meetings, day, dayId, handleSelectDay}) => {
                 </time>
             </button>
             {hover &&
-                <div className="absolute mt-2 bg-amber-300">
+                <div className="absolute p-2 -mt-8 bg-amber-300" onMouseLeave={() => changeHoverState(false)}>
                     {todaysMeeting.map((day, dayIdx) =>
                         <div>
                             <div>{day.name}</div>
