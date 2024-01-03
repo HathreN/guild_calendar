@@ -33,6 +33,10 @@ const SingleDay = ({meetings, day, dayId, handleSelectDay}) => {
         window.location = "/raid"
     }
 
+    function changeHoverState(param) {
+        setHover(param)
+    }
+
     let today = startOfToday()
     let selectedDay = today
     const todaysMeeting = filterMeetingsByDay(meetings, day)
@@ -66,9 +70,9 @@ const SingleDay = ({meetings, day, dayId, handleSelectDay}) => {
             >
                 <time dateTime={format(day, 'yyyy-MM-dd')}>
                     <div className="" onMouseEnter={() => {
-                        if (anyMeetingsPresent) setHover(todaysMeeting)
+                        if (anyMeetingsPresent) changeHoverState(todaysMeeting)
                     }}
-                         onMouseLeave={() => setHover(false)}>
+                         onMouseLeave={() => changeHoverState(false)}>
                         {/* eslint-disable-next-line no-unused-expressions */}
                         {anyMeetingsPresent ? <img src={todaysMeeting[0].imageUrl} alt="meeting" onClick={() => {
                             showRaidDay()
@@ -77,7 +81,7 @@ const SingleDay = ({meetings, day, dayId, handleSelectDay}) => {
                 </time>
             </button>
             {hover &&
-                <div className="absolute mt-16 bg-amber-300">
+                <div className="absolute mt-2 bg-amber-300">
                     {todaysMeeting.map((day, dayIdx) =>
                         <div>
                             <div>{day.name}</div>
