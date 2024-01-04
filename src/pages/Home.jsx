@@ -54,8 +54,8 @@ const meetings = [
         name: 'Michael Foster',
         imageUrl:
             'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        startDatetime: '2023-12-13T14:00',
-        endDatetime: '2023-12-13T14:30',
+        startDatetime: '2024-01-10T14:00',
+        endDatetime: '2024-01-09T14:30',
     },
 ]
 
@@ -71,7 +71,6 @@ function dayStyle(isSelected, isToday, isSameMonth){
 }
 
 export default function Home() {
-    const [hover, setHover] = useState(null)
     let [currentMonth, setCurrentMonth] = useState(format(startOfToday(), 'MMM-yyyy'))
     let firstDayCurrentMonth = parse(currentMonth, 'MMM-yyyy', new Date())
     let today = startOfToday()
@@ -91,10 +90,10 @@ export default function Home() {
         setCurrentMonth(format(firstDayNextMonth, 'MMM-yyyy'))
     }
 
-    let selectedDayMeetings = meetings.filter((meeting) =>
-        isSameDay(parseISO(meeting.startDatetime), selectedDay)
-    )
-
+    // let selectedDayMeetings = meetings.filter((meeting) =>{
+    //     isSameDay(parseISO(meeting.startDatetime), selectedDay)}
+    // )
+    let selectedDayMeetings = meetings.filter((meeting => today <= parseISO(meeting.startDatetime) && parseISO(meeting.startDatetime) <= (add(today, {days: 6}))))
     function handleSelectDay() {
         selectedDayStorage = localStorage.getItem('selectedDay')
         setSelectedDay(selectedDayStorage)
@@ -147,10 +146,10 @@ export default function Home() {
                     </div>
                     <section className="mt-12 md:mt-0 md:pl-14">
                         <h2 className="font-semibold text-gray-900">
-                            Raidy w dzień{' '}
-                            <time dateTime={format(selectedDay, 'yyyy-MM-dd')}>
-                                {format(selectedDay, 'LLL dd, yyy', {locale:pl})}
-                            </time>
+                            Nadchodzące raidy{' '}
+                            {/*<time dateTime={format(selectedDay, 'yyyy-MM-dd')}>*/}
+                            {/*    {format(selectedDay, 'LLL dd, yyy', {locale:pl})}*/}
+                            {/*</time>*/}
                         </h2>
                         <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
                             {selectedDayMeetings.length > 0 ? (
@@ -158,7 +157,7 @@ export default function Home() {
                                     <Meeting meeting={meeting} key={meeting.id} />
                                 ))
                             ) : (
-                                <p>No meetings for today.</p>
+                                <p>Brak raidów na nadchodzące dni.</p>
                             )}
                         </ol>
                     </section>

@@ -61,7 +61,7 @@ const SingleDay = ({meetings, day, dayId, handleSelectDay}) => {
                     isSelected && 'text-white',
                     !isSelected && isToday(day) && 'text-red-500',
                     !isSelected && !isToday(day) && isSameMonth(day, firstDayCurrentMonth) && 'text-gray-900', //every day of month other than today
-                    !isSelected && !isToday(day) && !isSameMonth(day, firstDayCurrentMonth) && 'text-gray-400 bg-gray-900',
+                    !isSelected && !isToday(day) && !isSameMonth(day, firstDayCurrentMonth) && 'text-gray-900',
                     isSelected && isToday(day) && 'border-double border-4 border-sky-500 rounded-none', // today
                     isSelected && !isToday(day) && 'bg-gray-900', // every day of month other than today
                     !isSelected && 'hover:bg-gray-200', // hovered day
